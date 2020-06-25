@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 public class Utils {
-
     public static Stage currentStage(ActionEvent event) {
 	return (Stage) ((Node) event.getSource()).getScene().getWindow();
     }
@@ -28,8 +27,16 @@ public class Utils {
 	}
     }
 
-    public static <T> void formatTableColumnDate(TableColumn<T, Date> tableColumnBirthDate, String format) {
-	tableColumnBirthDate.setCellFactory(column -> {
+    public static Double tryParseToDouble(String str) {
+	try {
+	    return Double.parseDouble(str);
+	} catch (NumberFormatException e) {
+	    return null;
+	}
+    }
+
+    public static <T> void formatTableColumnDate(TableColumn<T, Date> tableColumn, String format) {
+	tableColumn.setCellFactory(column -> {
 	    TableCell<T, Date> cell = new TableCell<T, Date>() {
 		private SimpleDateFormat sdf = new SimpleDateFormat(format);
 
@@ -67,7 +74,6 @@ public class Utils {
 
     public static void formatDatePicker(DatePicker datePicker, String format) {
 	datePicker.setConverter(new StringConverter<LocalDate>() {
-
 	    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(format);
 	    {
 		datePicker.setPromptText(format.toLowerCase());
